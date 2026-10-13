@@ -9,6 +9,14 @@ versão publicada ganha uma tag `vX.Y.Z` e uma release no GitHub com o `.zip` do
 
 ## [Não lançado]
 
+## [1.0.1] — 2026-10-12
+
+### Alterado
+- Fontes distribuíveis: Hanken Grotesk no lugar da Neue Haas Grotesk Display (arquivos trial da Linotype) e Sometype Mono no lugar da Calling Code (Dharma Type, sem licença de redistribuição). As duas são SIL OFL 1.1 e são as substitutas previstas pelo design system; a troca fica em `static/fontes.css` e as licenças em `static/fonts/`.
+
+### Removido
+- Arquivos das fontes Neue Haas Grotesk Display e Calling Code.
+
 ## [1.0.0] — 2026-10-12
 
 Primeira versão. Paridade com o Ether Dream Sitter (Feitiçaria Industrial) e as melhorias abaixo.
@@ -45,5 +53,6 @@ Primeira versão. Paridade com o Ether Dream Sitter (Feitiçaria Industrial) e a
 ### Segurança
 - Comandos só do próprio computador, com cabeçalho `Host` local e token da sessão (protege contra CSRF e DNS rebinding).
 
-[Não lançado]: https://github.com/Artboeira/vigia/compare/v1.0.0...HEAD
+[Não lançado]: https://github.com/Artboeira/vigia/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/Artboeira/vigia/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/Artboeira/vigia/releases/tag/v1.0.0

@@ -1,0 +1,34 @@
+/* ─────────────────────────────────────────────────────────────────
+   Vigia — fontes distribuíveis
+   As fontes de marca não podem ir dentro de um aplicativo distribuído:
+   • Neue Haas Grotesk Display: arquivos trial da Linotype
+   • Calling Code: Dharma Type, todos os direitos reservados
+   No lugar delas, as substitutas que o próprio design system prevê
+   (edição artifact e fallback de --ab-font-mono), ambas SIL OFL 1.1:
+   • Hanken Grotesk → display e UI (peso 200 no display, tracking −0.03em)
+   • Sometype Mono  → corpo, legendas e rótulos
+   Licenças em fonts/OFL-*.txt. Carregar depois de colors_and_type.css.
+   ─────────────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/HankenGrotesk-VF.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Sometype Mono';
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/SometypeMono-VF.ttf') format('truetype');
+}
+
+:root {
+  --ab-font-sans:    'Hanken Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --ab-font-mono:    'Sometype Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --ab-font-display: var(--ab-font-sans);
+  --ab-tracking-tight: -0.03em;
+}

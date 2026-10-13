@@ -95,7 +95,6 @@ python3 -m unittest discover -s tests -t .
 
 ## Pendências
 
-- **Fonte:** a Neue Haas Grotesk Display vem como *trial* da Linotype no design system. Antes de distribuir o aplicativo fora do estúdio, troque por uma licença válida.
 - **Hardware:** o protocolo, os estados e o Clear E-Stop foram validados com o simulador e com os mesmos casos de teste do original; falta rodar contra uma ED4 de verdade e no Windows/Linux reais.
 - **Cores do guia do LED:** são as cores físicas do LED da placa (documentação de hardware), a única exceção à paleta.
 - **Firmware:** a tabela de versões mais novas (`domain/firmware.py`) é manual, como no original.
@@ -103,5 +102,7 @@ python3 -m unittest discover -s tests -t .
 ## Licença
 
 GPL-3.0 — veja [LICENSE](LICENSE). Derivado do Ether Dream Sitter (Feitiçaria Industrial, 2026), por sua vez derivado do `sitter` do [j4cDAC](https://github.com/j4cbo/j4cDAC), Copyright 2012 Jacob Potter. Protocolo: [ether-dream.com/protocol.html](https://ether-dream.com/protocol.html). Ícones: [Lucide](https://lucide.dev) (ISC).
+
+**Fontes.** O aplicativo usa Hanken Grotesk (display e UI) e Sometype Mono (corpo e rótulos), ambas sob a [SIL Open Font License 1.1](https://openfontlicense.org), com as licenças em `vigia/infra/web/static/fonts/`. São as substitutas que o próprio design system Estúdio AB prevê para a Neue Haas Grotesk Display e a Calling Code, que não podem ser redistribuídas dentro de um aplicativo. A troca fica em `static/fontes.css`; `colors_and_type.css` segue igual ao do design system.
 
 Ether Dream é marca de seus respectivos donos; este projeto não tem vínculo com eles.
