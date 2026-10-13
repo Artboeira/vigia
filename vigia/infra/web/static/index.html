@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="vigia-token" content="{{TOKEN}}">
+<title>Vigia</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="colors_and_type.css">
+<link rel="stylesheet" href="tema-escuro.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="app" id="app">
+
+  <header class="rail rail--top">
+    <div class="rail__brand">
+      <span class="glyph" data-logo="symbol"></span>
+      <span>ESTÚDIO AB</span><span class="rail__sep">/</span><strong>VIGIA</strong>
+      <span class="rail__muted">MONITOR ETHER DREAM</span>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Vistas">
+      <button class="tab" role="tab" data-view="detalhe" aria-selected="true">DETALHE <kbd>1</kbd></button>
+      <button class="tab" role="tab" data-view="painel" aria-selected="false">PAINEL <kbd>2</kbd></button>
+      <button class="tab" role="tab" data-view="registro" aria-selected="false">REGISTRO <kbd>3</kbd> <span class="tab__badge" id="badge" hidden></span></button>
+    </nav>
+    <div class="rail__status">
+      <span id="rail-mode" class="rail__flag" hidden></span>
+      <span id="rail-placas" class="rail__muted"></span>
+      <span id="rail-relogio"></span>
+    </div>
+  </header>
+
+  <div class="alerta" id="alerta" role="alert" hidden>
+    <span class="alerta__rotulo">ALERTA</span>
+    <span class="alerta__texto" id="alerta-texto"></span>
+    <span class="alerta__mais" id="alerta-mais"></span>
+    <button class="btn btn--inv" id="alerta-ok">CIENTE</button>
+  </div>
+
+  <main class="vistas">
+    <!-- DETALHE -->
+    <section class="vista vista--detalhe" id="vista-detalhe" data-view="detalhe">
+      <aside class="lista" aria-label="DACs na rede">
+        <div class="eyebrow lista__head">
+          <span>DACS NA REDE · <span id="contagem">0</span></span>
+          <span id="resumo" class="lista__resumo"></span>
+        </div>
+        <ul class="lista__itens" id="lista" role="listbox" aria-label="DACs" tabindex="0"></ul>
+        <div class="vazio" id="lista-vazia">
+          <p class="vazio__titulo">Nenhuma DAC ainda</p>
+          <p class="vazio__texto" id="vazio-texto">Aguardando anúncios na porta UDP 7654. Ligue a Ether Dream na mesma rede deste computador.</p>
+        </div>
+      </aside>
+
+      <div class="detalhe" id="detalhe">
+        <div class="hero">
+          <div class="hero__principal">
+            <div class="hero__id">
+              <h2 class="hero__nome" id="d-nome" title="Duplo clique ou F2 para renomear">—</h2>
+              <button class="icone-btn" id="d-lapis" aria-label="Renomear" data-icon="pencil"></button>
+              <span class="hero__end mono" id="d-end"></span>
+            </div>
+            <div class="hero__estado">
+              <span class="led led--xl" id="d-led"></span>
+              <h1 class="estado" id="d-estado">NENHUMA DAC</h1>
+            </div>
+            <p class="motivo" id="d-motivo">Ligue a DAC na mesma rede deste computador.</p>
+          </div>
+          <div class="hero__lado">
+            <dl class="meta" id="d-meta">
+              <div><dt>NESTE ESTADO</dt><dd id="d-desde">—</dd></div>
+              <div><dt>QUEDAS</dt><dd id="d-quedas">—</dd></div>
+              <div><dt>NA REDE HÁ</dt><dd id="d-visto">—</dd></div>
+            </dl>
+            <figure class="spark" id="spark">
+              <figcaption class="eyebrow"><span>PONTOS POR SEGUNDO · 60 S</span><span id="spark-valor" class="spark__valor"></span></figcaption>
+              <svg id="spark-svg" preserveAspectRatio="none" role="img" aria-label="Taxa de pontos nos últimos 60 segundos"></svg>
+              <div class="spark__tip" id="spark-tip" hidden></div>
+            </figure>
+          </div>
+        </div>
+
+        <div class="aviso" id="aviso" hidden>
+          <span class="aviso__texto" id="aviso-texto"></span>
+          <div class="aviso__acoes">
+            <button class="btn btn--linha" id="aviso-pc" data-cmd>REDE DO PC</button>
+            <button class="btn btn--linha" data-modal="ip">IP DA ED4</button>
+          </div>
+        </div>
+
+        <div class="cartoes" id="cartoes"></div>
+
+        <section class="recentes" aria-label="Ocorrências desta DAC">
+          <div class="eyebrow recentes__head"><span>OCORRÊNCIAS DESTA DAC</span><button class="link" data-goto="registro">VER REGISTRO →</button></div>
+          <ol class="recentes__lista" id="recentes"></ol>
+        </section>
+      </div>
+    </section>
+
+    <!-- PAINEL -->
+    <section class="vista vista--painel" id="vista-painel" data-view="painel" hidden>
+      <div class="painel__head">
+        <p class="eyebrow">TODAS AS DACS · <span id="painel-contagem">0</span></p>
+        <p class="painel__legenda" id="painel-legenda"></p>
+      </div>
+      <div class="painel" id="painel"></div>
+    </section>
+
+    <!-- REGISTRO -->
+    <section class="vista vista--registro" id="vista-registro" data-view="registro" hidden>
+      <div class="registro__head">
+        <div class="filtros" role="group" aria-label="Filtro">
+          <button class="chip is-on" data-filtro="todas">TODAS</button>
+          <button class="chip" data-filtro="alertas">SÓ ALERTAS</button>
+          <button class="chip" data-filtro="dac">SÓ A DAC SELECIONADA</button>
+        </div>
+        <button class="btn btn--linha" id="exportar-registro"><span data-icon="download"></span>EXPORTAR REGISTRO</button>
+      </div>
+      <table class="tabela">
+        <thead><tr><th class="tabela__hora">HORÁRIO</th><th class="tabela__tipo">TIPO</th><th>OCORRÊNCIA</th></tr></thead>
+        <tbody id="registro"></tbody>
+      </table>
+      <p class="vazio__texto registro__vazio" id="registro-vazio" hidden>Nada registrado ainda.</p>
+    </section>
+  </main>
+
+  <footer class="acoes">
+    <div class="acoes__botoes">
+      <button class="btn btn--primario" id="btn-clear" data-cmd>LIMPAR E-STOP</button>
+      <button class="btn btn--linha" data-modal="led">GUIA LED</button>
+      <button class="btn btn--linha" data-modal="ip">GUIA IP</button>
+      <button class="btn btn--linha" data-modal="etiquetas">ETIQUETAS</button>
+      <button class="btn btn--linha" id="btn-inventario"><span data-icon="download"></span>INVENTÁRIO</button>
+      <button class="icone-btn icone-btn--caixa" id="btn-som" aria-pressed="false" title="Som de alerta"></button>
+    </div>
+    <p class="log" id="log" aria-live="polite"></p>
+  </footer>
+
+  <div class="rail rail--bottom">
+    <span>SÃO PAULO · 2026</span>
+    <span id="rail-atalhos" class="rail__muted">↑ ↓ SELECIONA · F2 RENOMEIA · 1 2 3 VISTAS</span>
+    <span id="rail-info"></span>
+  </div>
+</div>
+
+<!-- confirmação do Clear E-Stop -->
+<dialog class="modal modal--estreito" id="modal-confirmar">
+  <header class="modal__rail"><span>CONFIRMAR</span><button class="icone-btn" data-fechar aria-label="Fechar" data-icon="x"></button></header>
+  <div class="modal__corpo">
+    <h3 class="modal__titulo" id="confirmar-titulo">A DAC pode estar tocando</h3>
+    <p class="modal__texto">Conectar agora interrompe a saída do laser na Ether Dream 4. Envie o Clear E-Stop só se tiver certeza de que ninguém está usando o projetor.</p>
+  </div>
+  <footer class="modal__acoes">
+    <button class="btn btn--linha" data-fechar>CANCELAR</button>
+    <button class="btn btn--perigo" id="confirmar-ok">ENVIAR MESMO ASSIM</button>
+  </footer>
+</dialog>
+
+<!-- guia do LED -->
+<dialog class="modal" id="modal-led">
+  <header class="modal__rail"><span>GUIA DO LED · ETHER DREAM 4</span><button class="icone-btn" data-fechar aria-label="Fechar" data-icon="x"></button></header>
+  <div class="modal__corpo">
+    <ul class="leds">
+      <li><span class="led-fisico led-fisico--ciano"></span><b>VERDE-CIANO</b><span>Ociosa.</span></li>
+      <li><span class="led-fisico led-fisico--branco"></span><b>BRANCO</b><span>Tocando.</span></li>
+      <li><span class="led-fisico led-fisico--ciano"></span><b>E-STOP</b><span>O LED não muda. Só o Vigia mostra o E-stop.</span></li>
+      <li><span class="led-fisico led-fisico--ciano led-fisico--pisca"></span><b>PISCANDO</b><span>Falha de rede: cabo, switch ou IP.</span></li>
+      <li><span class="led-fisico led-fisico--vermelho"></span><b>VERMELHO</b><span>Veja o estado no Vigia. Em E-STOP, limpe. Travada, desligue por 1 minuto.</span></li>
+    </ul>
+    <p class="modal__nota">As cores acima são as do LED físico da placa, não da interface. Sem tabela oficial do fabricante: observadas em campo.</p>
+  </div>
+</dialog>
+
+<!-- guia de IP -->
+<dialog class="modal" id="modal-ip">
+  <header class="modal__rail"><span>GUIA DE IP · <span id="ip-para">ETHER DREAM</span></span><button class="icone-btn" data-fechar aria-label="Fechar" data-icon="x"></button></header>
+  <div class="modal__corpo guia">
+    <section class="guia__secao">
+      <h3 class="guia__titulo"><span class="guia__letra">A</span>MUDAR O COMPUTADOR <em>mais rápido</em></h3>
+      <ol class="guia__passos">
+        <li id="ip-passo-caminho"></li>
+        <li>IP fixo na faixa da DAC: <code class="guia__valor" id="ip-pc"></code></li>
+      </ol>
+      <button class="btn btn--linha" id="ip-abrir-rede" data-cmd><span data-icon="external"></span>ABRIR AJUSTES DE REDE</button>
+    </section>
+    <section class="guia__secao">
+      <h3 class="guia__titulo"><span class="guia__letra">B</span>MUDAR A ED4</h3>
+      <ol class="guia__passos">
+        <li>Cabo USB-C de dados no computador: a ED4 aparece como pendrive.</li>
+        <li>Criar <code>ip.txt</code> na raiz, com valores para a rede deste computador<span id="ip-placa"></span>:
+          <div class="codigo"><pre id="ip-txt"></pre><button class="btn btn--linha" id="ip-copiar"><span data-icon="copy"></span>COPIAR</button></div>
+        </li>
+        <li>Ejetar e religar a DAC.</li>
+      </ol>
+      <p class="modal__nota">Para voltar ao DHCP, apague o <code>ip.txt</code>. Sem servidor DHCP, DAC e computador usam 169.254.x.x e se encontram sozinhos.</p>
+    </section>
+  </div>
+</dialog>
+
+<!-- etiquetas -->
+<dialog class="modal modal--largo" id="modal-etiquetas">
+  <header class="modal__rail"><span>ETIQUETAS · ETHER DREAM</span><button class="icone-btn" data-fechar aria-label="Fechar" data-icon="x"></button></header>
+  <div class="modal__corpo">
+    <p class="modal__texto">Marque as DACs que vão para a folha. Cada etiqueta tem 70 × 32 mm, com nome, MAC e IP.</p>
+    <div class="etiquetas" id="etiquetas"></div>
+    <p class="vazio__texto" id="etiquetas-vazio" hidden>Nenhuma DAC para etiquetar.</p>
+  </div>
+  <footer class="modal__acoes">
+    <button class="link" id="etiquetas-todas">MARCAR TODAS</button>
+    <button class="btn btn--primario" id="etiquetas-imprimir"><span data-icon="printer"></span>IMPRIMIR</button>
+  </footer>
+</dialog>
+
+<script src="assets/logo.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

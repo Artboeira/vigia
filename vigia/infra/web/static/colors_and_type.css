@@ -1,0 +1,301 @@
+/* ─────────────────────────────────────────────────────────────────
+   Estúdio AB — design tokens
+   Source: ESTÚDIO AB Brandbook (2025-01)
+   ─────────────────────────────────────────────────────────────── */
+
+/* Type — webfonts ----------------------------------------------- */
+/* Both brand fonts are loaded locally from `fonts/`:
+   • Neue Haas Grotesk Display (Linotype trial) — display + UI.
+   • Calling Code (Regular + Bold) — mono / body / labels.
+   No web substitutes; the brandbook spec is satisfied directly. */
+
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/NeueHaasGrotDisp-25XThin-Trial.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+  src: url('fonts/NeueHaasGrotDisp-26XThinItalic-Trial.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/NeueHaasGrotDisp-35Thin-Trial.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+  src: url('fonts/NeueHaasGrotDisp-36ThinItalic-Trial.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/NeueHaasGrotDisp-55Roman-Trial.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+  src: url('fonts/NeueHaasGrotDisp-56Italic-Trial.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/NeueHaasGrotDisp-65Medium-Trial.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+  src: url('fonts/NeueHaasGrotDisp-66MediumItalic-Trial.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/NeueHaasGrotDisp-75Bold-Trial.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+  src: url('fonts/NeueHaasGrotDisp-76BoldItalic-Trial.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/NeueHaasGrotDisp-95Black-Trial.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk Display';
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+  src: url('fonts/NeueHaasGrotDisp-96BlackItalic-Trial.otf') format('opentype');
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Sometype+Mono:wght@400;500;700&display=swap'); /* legacy fallback */
+
+@font-face {
+  font-family: 'Calling Code';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/CallingCode-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Calling Code';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('fonts/CallingCode-Bold.ttf') format('truetype');
+}
+
+:root {
+  /* ───── Primary palette (neutrals) ───────────────────────────── */
+  --ab-ink:        #222223; /* near-black, brand "preto" */
+  --ab-bark:      #453B32;  /* warm dark brown */
+  --ab-sage:     #B7BAAF;   /* desaturated green-grey — the brandbook background */
+  --ab-bone:    #EDE5D3;    /* warm off-white */
+
+  /* ───── Secondary palette (accents) ──────────────────────────── */
+  --ab-ember:    #BF4128;   /* burnt orange/red */
+  --ab-amber:    #EEA244;   /* warm yellow */
+  --ab-steel:    #4B657E;   /* slate blue */
+  --ab-plum:     #582D40;   /* deep wine */
+  --ab-moss:     #89993E;   /* olive green */
+  --ab-garnet:   #8A1D33;   /* deep red */
+
+  /* ───── Semantic surfaces ────────────────────────────────────── */
+  --ab-bg:        var(--ab-bone);   /* canonical brandbook background — warm paper */
+  --ab-bg-sage:   var(--ab-sage);   /* secondary surface (cool grey-green) */
+  --ab-bg-ink:    var(--ab-ink);    /* dark mode */
+  --ab-fg:        var(--ab-ink);    /* default text on light bg */
+  --ab-fg-muted:  #45463F;          /* darker sage for de-emphasised text */
+  --ab-fg-inv:    var(--ab-bone);   /* text on dark bg */
+  --ab-rule:      var(--ab-ink);    /* hairline rules — full ink */
+  --ab-rule-soft: rgba(34, 34, 35, 0.18);
+
+  /* ───── Typography ───────────────────────────────────────────── */
+  --ab-font-sans: 'Neue Haas Grotesk Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --ab-font-mono: 'Calling Code', 'Sometype Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --ab-font-display: var(--ab-font-sans);
+
+  --ab-w-thin:    200;
+  --ab-w-regular: 400;
+  --ab-w-medium:  500;
+  --ab-w-bold:    700;
+
+  --ab-tracking-tight:  -0.02em;
+  --ab-tracking-normal:  0;
+  --ab-tracking-wide:   0.08em;   /* used in eyebrow/header rules */
+  --ab-tracking-mono:   0.02em;
+
+  --ab-leading-tight: 1.05;
+  --ab-leading-snug:  1.25;
+  --ab-leading-body:  1.5;
+
+  /* Type scale — calibrated against brandbook page proportions */
+  --ab-size-display: clamp(64px, 10vw, 160px);
+  --ab-size-h1:      clamp(40px, 5vw, 72px);
+  --ab-size-h2:      clamp(28px, 3.4vw, 44px);
+  --ab-size-h3:      20px;
+  --ab-size-body:    15px;
+  --ab-size-small:   13px;
+  --ab-size-eyebrow: 11px;
+
+  /* ───── Spacing (8pt scale) ──────────────────────────────────── */
+  --ab-space-1:  4px;
+  --ab-space-2:  8px;
+  --ab-space-3:  12px;
+  --ab-space-4:  16px;
+  --ab-space-5:  24px;
+  --ab-space-6:  32px;
+  --ab-space-7:  48px;
+  --ab-space-8:  64px;
+  --ab-space-9:  96px;
+  --ab-space-10: 128px;
+
+  /* ───── Radii — squared identity, used sparingly ─────────────── */
+  --ab-radius-0: 0px;
+  --ab-radius-1: 2px;
+  --ab-radius-2: 4px;
+  --ab-radius-pill: 999px;
+
+  /* ───── Borders & rules ──────────────────────────────────────── */
+  --ab-border-hair:  1px solid var(--ab-rule);
+  --ab-border-soft:  1px solid var(--ab-rule-soft);
+
+  /* ───── Elevation — flat brand, very minimal shadow ──────────── */
+  --ab-shadow-0: none;
+  --ab-shadow-1: 0 1px 0 rgba(34,34,35,0.12);
+  --ab-shadow-2: 0 8px 24px rgba(34,34,35,0.10);
+
+        /* ───── Signature gradient ──────────────────────────────────── */
+  /* A wide horizontal sweep — plum on the left, steel under-shadowing
+     it, sage filling the centre, moss subtly bleeding up from below,
+     amber on the right. Matches the brandbook gradient field reference
+     (assets/gradient_field.png). */
+  --ab-gradient-signature:
+    radial-gradient(70% 110% at -5% 70%,  var(--ab-steel) 0%, transparent 55%),
+    radial-gradient(50% 130% at -2% 25%,  var(--ab-plum)  0%, transparent 60%),
+    radial-gradient(45% 130% at 102% 50%, var(--ab-amber) 0%, transparent 55%),
+    radial-gradient(80% 60% at 55% 130%,  var(--ab-moss)  0%, transparent 75%),
+    var(--ab-sage);
+
+  /* Motion */
+  --ab-ease:        cubic-bezier(0.22, 1, 0.36, 1);
+  --ab-ease-quick:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ab-dur-fast:    140ms;
+  --ab-dur-base:    240ms;
+  --ab-dur-slow:    520ms;
+}
+
+/* ───── Semantic typography classes ───────────────────────────── */
+.ab-display {
+  font-family: var(--ab-font-display);
+  font-weight: var(--ab-w-thin);
+  font-size: var(--ab-size-display);
+  line-height: var(--ab-leading-tight);
+  letter-spacing: var(--ab-tracking-tight);
+  color: var(--ab-fg);
+}
+
+.ab-h1 {
+  font-family: var(--ab-font-sans);
+  font-weight: var(--ab-w-thin);
+  font-size: var(--ab-size-h1);
+  line-height: var(--ab-leading-tight);
+  letter-spacing: var(--ab-tracking-tight);
+}
+
+.ab-h2 {
+  font-family: var(--ab-font-sans);
+  font-weight: var(--ab-w-bold);
+  font-size: var(--ab-size-h2);
+  line-height: var(--ab-leading-snug);
+  letter-spacing: var(--ab-tracking-tight);
+  text-transform: uppercase;
+}
+
+.ab-h3 {
+  font-family: var(--ab-font-sans);
+  font-weight: var(--ab-w-bold);
+  font-size: var(--ab-size-h3);
+  line-height: var(--ab-leading-snug);
+  text-transform: uppercase;
+}
+
+.ab-eyebrow {
+  font-family: var(--ab-font-mono);
+  font-weight: var(--ab-w-regular);
+  font-size: var(--ab-size-eyebrow);
+  line-height: 1;
+  letter-spacing: var(--ab-tracking-wide);
+  text-transform: uppercase;
+  color: var(--ab-fg);
+}
+
+.ab-body {
+  font-family: var(--ab-font-mono);
+  font-weight: var(--ab-w-regular);
+  font-size: var(--ab-size-body);
+  line-height: var(--ab-leading-body);
+  color: var(--ab-fg);
+}
+
+.ab-body-sans {
+  font-family: var(--ab-font-sans);
+  font-weight: var(--ab-w-regular);
+  font-size: var(--ab-size-body);
+  line-height: var(--ab-leading-body);
+  letter-spacing: 0;
+  color: var(--ab-fg);
+}
+
+.ab-small {
+  font-family: var(--ab-font-mono);
+  font-size: var(--ab-size-small);
+  line-height: var(--ab-leading-snug);
+  letter-spacing: var(--ab-tracking-mono);
+}
+
+.ab-mono {
+  font-family: var(--ab-font-mono);
+  letter-spacing: var(--ab-tracking-mono);
+}
+
+/* ───── Brandbook page chrome — rules with corner labels ───── */
+.ab-page-rule-top,
+.ab-page-rule-bottom {
+  position: relative;
+  border-top: var(--ab-border-hair);
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0 0;
+  font-family: var(--ab-font-mono);
+  font-size: var(--ab-size-eyebrow);
+  letter-spacing: var(--ab-tracking-wide);
+  text-transform: uppercase;
+}

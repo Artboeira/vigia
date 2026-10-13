@@ -1,0 +1,15 @@
+/* ─────────────────────────────────────────────────────────────────
+   Vigia — modo escuro do design system Estúdio AB
+   A superfície passa a ser ink (--ab-bg-ink, prevista pelo sistema
+   como "dark mode") e o texto, bone. Só os aliases semânticos mudam:
+   a paleta, a tipografia e os demais tokens vêm de colors_and_type.css.
+   ─────────────────────────────────────────────────────────────── */
+:root {
+  --ab-bg:        var(--ab-ink);
+  --ab-fg:        var(--ab-bone);
+  --ab-fg-muted:  var(--ab-sage);            /* sage sobre ink: par válido do brandbook */
+  --ab-fg-inv:    var(--ab-ink);
+  --ab-rule:      var(--ab-bone);
+  --ab-rule-soft: rgba(237, 229, 211, 0.16);
+  color-scheme: dark;
+}

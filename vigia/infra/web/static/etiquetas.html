@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Etiquetas Ether Dream</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  /* folha de impressão: modo claro do design system (bone na tela, papel na impressora) */
+  @page { margin: 10mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ab-bg); color: var(--ab-fg); font-family: var(--ab-font-mono); padding: 0 6vw; }
+  .rail { display: flex; justify-content: space-between; align-items: center; font-size: var(--ab-size-eyebrow);
+          letter-spacing: var(--ab-tracking-wide); text-transform: uppercase; }
+  .rail--top { border-bottom: var(--ab-border-hair); padding: 16px 0 12px; margin-bottom: 24px; }
+  .rail--bottom { border-top: var(--ab-border-hair); padding: 12px 0 16px; margin-top: 24px; }
+  button { font-family: var(--ab-font-sans); font-weight: 700; font-size: 12px; letter-spacing: .1em; padding: 8px 16px;
+           border: 1px solid var(--ab-ink); border-radius: 0; background: var(--ab-ink); color: var(--ab-bone); cursor: pointer; }
+  button:hover { background: transparent; color: var(--ab-ink); }
+  .folha { display: flex; flex-wrap: wrap; }
+  .l { display: inline-flex; flex-direction: column; justify-content: center; width: 70mm; height: 32mm;
+       margin: 0 3mm 3mm 0; padding: 3mm 5mm; border: 1px dashed var(--ab-ink); break-inside: avoid; }
+  .l b { font-family: var(--ab-font-sans); font-weight: 700; font-size: 17pt; line-height: 1.1; text-transform: uppercase;
+         letter-spacing: .02em; margin-bottom: 1.5mm; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .l span { font-size: 10pt; }
+  .l i { font-style: normal; font-size: 6pt; letter-spacing: .16em; margin-top: 2mm; color: var(--ab-fg-muted); }
+  .vazio { color: var(--ab-fg-muted); }
+  @media print {
+    body { background: none; padding: 0; }
+    .rail { display: none; }
+  }
+</style>
+</head>
+<body>
+  <header class="rail rail--top"><span>ESTÚDIO AB / VIGIA · ETIQUETAS ETHER DREAM</span><button id="imprimir">IMPRIMIR</button></header>
+  <main class="folha" id="folha"></main>
+  <footer class="rail rail--bottom"><span id="data"></span><span>70 × 32 MM · CORTE NA LINHA TRACEJADA</span></footer>
+<script type="module">
+  const params = new URLSearchParams(location.search);
+  const wanted = (params.get('macs') || '').split(',').filter(Boolean);
+  const folha = document.getElementById('folha');
+  document.getElementById('data').textContent = new Date().toLocaleString('pt-BR');
+  document.getElementById('imprimir').addEventListener('click', () => print());
+
+  const state = await (await fetch('/api/estado')).json();
+  const list = state.dacs.filter((d) => !wanted.length || wanted.includes(d.mac));
+  for (const d of list) {
+    const card = document.createElement('div');
+    card.className = 'l';
+    const name = document.createElement('b');
+    name.textContent = d.rotulo;
+    const mac = document.createElement('span');
+    mac.textContent = d.mac_texto.toLowerCase();
+    const ip = document.createElement('span');
+    ip.textContent = d.ip;
+    const foot = document.createElement('i');
+    foot.textContent = 'ETHER DREAM · ESTÚDIO AB';
+    card.append(name, mac, ip, foot);
+    folha.append(card);
+  }
+  if (!list.length) {
+    folha.innerHTML = '<p class="vazio">Nenhuma DAC para etiquetar.</p>';
+  } else if (params.get('imprimir') !== '0') {  // ?imprimir=0: só a prévia
+    await document.fonts.ready;
+    print();
+  }
+</script>
+</body>
+</html>
