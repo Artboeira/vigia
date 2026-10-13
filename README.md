@@ -4,7 +4,16 @@ Monitor de rede para as DACs de laser **Ether Dream** (ED2, ED3, ED4), do Estúd
 
 O ponto de partida foi o [Ether Dream Sitter — edição Feitiçaria Industrial](https://github.com/MatheusMeM/etherdream-sitter-fi). O Vigia mantém todas as funções dele e acrescenta as melhorias listadas abaixo.
 
-## Rodar
+## Baixar
+
+Na [página de releases](https://github.com/Artboeira/vigia/releases/latest):
+
+| Sistema | Arquivo |
+|---|---|
+| Windows 10/11 (x64) | `Vigia-windows-x64.exe` — sem instalação. O executável não é assinado: no aviso do SmartScreen, *Mais informações → Executar assim mesmo*. Na primeira vez, permita o Vigia no Firewall do Windows em **redes privadas**. |
+| macOS 11+ (Apple Silicon) | `Vigia-mac-arm64.zip` — descompacte e arraste para Aplicativos. Na primeira vez, botão direito → Abrir, e aceite o pedido de **Rede Local**. |
+
+## Rodar do código-fonte
 
 Python 3.10 ou mais novo. O núcleo usa só a biblioteca padrão.
 
@@ -90,7 +99,11 @@ python3 -m unittest discover -s tests -t .
 
 ## Gerar o aplicativo
 
-- macOS: `bash packaging/build_mac.sh` → `dist/Vigia.app` e um .zip. Assinatura ad-hoc, sem notarização: na primeira vez, clique com o botão direito → Abrir.
+A cada tag `vX.Y.Z` enviada ao GitHub, o workflow [release](.github/workflows/release.yml) gera o `.exe` numa máquina Windows e o `.app` num Mac Apple Silicon, testa os dois (no Windows, também lendo as placas de rede e abrindo a porta UDP 7654 de verdade) e anexa os arquivos à release.
+
+À mão, na máquina de cada sistema:
+
+- macOS: `bash packaging/build_mac.sh` → `dist/Vigia.app` e um .zip. Assinatura ad-hoc, sem notarização.
 - Windows: `packaging\build_windows.bat` → `dist\Vigia.exe`.
 
 ## Pendências

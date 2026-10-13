@@ -5,9 +5,13 @@ Todas as mudanças relevantes do Vigia ficam registradas aqui. O formato segue o
 [Versionamento Semântico](https://semver.org/lang/pt-BR/): `MAIOR.MENOR.CORREÇÃO`.
 
 A versão do app mora em um único lugar, `vigia/__init__.py` (`__version__`), e cada
-versão publicada ganha uma tag `vX.Y.Z` e uma release no GitHub com o `.zip` do macOS.
+versão publicada ganha uma tag `vX.Y.Z` e uma release no GitHub com o `.exe` do Windows e o `.zip` do macOS,
+gerados pelo workflow `.github/workflows/release.yml`.
 
 ## [Não lançado]
+
+### Adicionado
+- Build automático no GitHub Actions: cada tag gera, testa e anexa à release o `Vigia-windows-x64.exe` e o `Vigia-mac-arm64.zip`. A release 1.0.1 recebeu o executável de Windows por esse caminho, gerado do mesmo código da tag.
 
 ## [1.0.1] — 2026-10-12
 

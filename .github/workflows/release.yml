@@ -1,0 +1,79 @@
+# Gera os executáveis de Windows e macOS, testa e anexa à release da tag.
+# Dispara sozinho a cada tag vX.Y.Z; para uma tag que já existe, rode à mão
+# (Actions → release → Run workflow) informando a tag.
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag existente (ex.: v1.0.1)"
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  TAG: ${{ inputs.tag || github.ref_name }}
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"   # pythonnet (janela do pywebview no Windows) ainda não cobre 3.13+
+      - name: gerar Vigia.exe
+        shell: cmd
+        run: packaging\build_windows.bat
+      - name: testar o executável (demo e rede real)
+        shell: pwsh
+        run: |
+          function Get-Estado($porta) {
+            foreach ($i in 1..30) {
+              try { return Invoke-RestMethod "http://127.0.0.1:$porta/api/estado" } catch { Start-Sleep 1 }
+            }
+            throw "o Vigia não respondeu na porta $porta"
+          }
+          $p = Start-Process dist\Vigia.exe -ArgumentList '--demo','--sem-janela','--porta','7692' -PassThru
+          $s = Get-Estado 7692
+          Write-Host "demo: versao=$($s.app.versao)"
+          Invoke-WebRequest http://127.0.0.1:7692/fonts/HankenGrotesk-VF.ttf -UseBasicParsing | Out-Null
+          Stop-Process $p
+          $p = Start-Process dist\Vigia.exe -ArgumentList '--sem-janela','--porta','7693' -PassThru
+          $s = Get-Estado 7693
+          Write-Host "rede real: escutando=$($s.escutando) placas=$($s.placas.Count)"
+          if (-not $s.escutando) { throw "a porta UDP 7654 não abriu" }
+          if ($s.placas.Count -lt 1) { throw "nenhuma placa de rede lida (iphlpapi)" }
+          Stop-Process $p
+      - name: anexar à release
+        shell: pwsh
+        run: |
+          Copy-Item dist\Vigia.exe dist\Vigia-windows-x64.exe
+          gh release upload $env:TAG dist\Vigia-windows-x64.exe --clobber
+
+  macos:
+    runs-on: macos-14   # Apple Silicon
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: gerar Vigia.app
+        run: PY=python bash packaging/build_mac.sh
+      - name: testar o aplicativo
+        run: |
+          dist/Vigia.app/Contents/MacOS/Vigia --demo --sem-janela --porta 7692 & PID=$!
+          for i in $(seq 30); do curl -sf http://127.0.0.1:7692/api/estado >/dev/null && break; sleep 1; done
+          curl -sf http://127.0.0.1:7692/api/estado | python -c "import json,sys; print('versao', json.load(sys.stdin)['app']['versao'])"
+          kill $PID
+      - name: anexar à release
+        run: gh release upload "$TAG" dist/Vigia-mac-arm64.zip --clobber
